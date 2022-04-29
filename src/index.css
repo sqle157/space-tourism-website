@@ -1,13 +1,806 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&family=Barlow:wght@400;700&family=Bellefair&display=swap');
+
+:root {
+	--clr-primary: 230 35% 7%;
+	--clr-secondary: 231 77% 90%;
+	--clr-white: 0 0% 100%;
+
+	--ff-primary: 'Bellefair', serif;
+	--ff-secondary: 'Barlow Condensed', sans-serif;
+	--ff-accent: 'Barlow', sans-serif;
+
+	--fs-150: 9.375rem;
+	--fs-100: 6.25rem;
+	--fs-80: 5rem;
+	--fs-56: 3.5rem;
+	--fs-40: 2.5rem;
+	--fs-32: 2rem;
+	--fs-28: 1.75rem;
+	--fs-24: 1.5rem;
+	--fs-20: 1.25rem;
+	--fs-18: 1.125rem;
+	--fs-16: 1rem;
+	--fs-15: 0.9375rem;
+	--fs-14: 0.875rem;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ------------------- */
+/* Reset               */
+/* ------------------- */
+
+/* https://piccalil.li/blog/a-modern-css-reset/ */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+	margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul,
+ol {
+	list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+	scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+	min-height: 100vh;
+	text-rendering: optimizeSpeed;
+	line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+	text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+	max-width: 100%;
+	display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+	html:focus-within {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* Main CSS */
+a {
+	text-decoration: none;
+}
+
+body {
+	font-size: var(--fs-16);
+	font-family: var(--ff-primary);
+	color: hsl(var(--clr-white));
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	padding-top: 2.5rem;
+}
+
+/* Utility classes */
+.container-lg {
+	width: min(100% - 3rem, 1385px);
+	margin-left: auto;
+}
+
+@media (max-width: 35em) {
+	.container-lg {
+		margin-inline: auto;
+	}
+}
+
+.container-md {
+	width: min(100% - 6rem, 1275px);
+	margin-left: auto;
+}
+
+@media (max-width: 55em) {
+	.container-md {
+		margin-inline: auto;
+	}
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--gap, 1rem);
+}
+
+@media (max-width: 55em) {
+	.grid-container {
+		grid-template-columns: 1fr;
+	}
+}
+
+.flex {
+	display: flex;
+	gap: var(--gap, 1rem);
+}
+
+/* Font-family */
+.ff-primary {
+	font-family: var(--ff-primary);
+}
+
+.ff-secondary {
+	font-family: var(--ff-secondary);
+}
+
+.ff-accent {
+	font-family: var(--ff-accent);
+}
+
+/* Font-weights */
+.fw-400 {
+	font-weight: 400;
+}
+
+.fw-700 {
+	font-weight: 700;
+}
+
+/* Text */
+.text-uppercase {
+	text-transform: uppercase;
+}
+
+.text-primary {
+	color: hsl(var(--clr-primary));
+}
+
+.text-secondary {
+	color: hsl(var(--clr-secondary));
+}
+
+.text-white {
+	color: hsl(var(--clr-white));
+}
+
+.text-white-50 {
+	color: hsl(var(--clr-white) / 0.5);
+}
+
+/* Letter Spacing */
+.letter-spacing-1 {
+	letter-spacing: 4.75px;
+}
+
+.letter-spacing-2 {
+	letter-spacing: 2.7px;
+}
+
+.letter-spacing-3 {
+	letter-spacing: 2.35px;
+}
+
+/* Display */
+.d-block {
+	display: block;
+}
+
+/* Border-radius */
+.border-50 {
+	border-radius: 50%;
+}
+
+/* Component CSS */
+/* ----------------------------- */
+/*           Button CSS          */
+/* ----------------------------- */
+/* Borrow CSS from Kevin Powell */
+/* https://github.com/kevin-powell/space-tourism/blob/main/lesson-files/65/index.css */
+
+.btn-lg {
+	font-size: var(--fs-32);
+	position: relative;
+	z-index: 1;
+	display: inline-grid;
+	place-items: center;
+	padding: 0 2em;
+	aspect-ratio: 1;
+	text-decoration: none;
+	background-color: hsl(var(--clr-white));
+}
+
+@media (max-width: 55em) {
+	.btn-lg {
+		padding: 0 1.5em;
+	}
+}
+
+@media (max-width: 35em) {
+	.btn-lg {
+		font-size: var(--fs-20);
+	}
+}
+
+.btn-lg::after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+	background: hsl(var(--clr-white) / 0.1);
+	border-radius: 50%;
+	opacity: 0;
+	transition: opacity 500ms linear, transform 750ms ease-in-out;
+}
+
+.btn-lg:hover::after,
+.btn-lg:focus::after {
+	opacity: 1;
+	transform: scale(1.5);
+}
+
+/* ----------------------------- */
+/*       Header Navbar CSS       */
+/* ----------------------------- */
+/* Borrow CSS from Kevin Powell */
+/* https://github.com/kevin-powell/space-tourism/blob/main/lesson-files/65/index.css */
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.header::after {
+	content: '';
+	display: block;
+	position: relative;
+	height: 1px;
+	width: 100%;
+	margin-right: -2.5rem;
+	background: hsl(var(--clr-white) / 0.25);
+	order: 1;
+}
+
+.header nav {
+	order: 2;
+}
+
+.logo {
+	cursor: pointer;
+	margin-block: 1.5rem;
+	margin-right: clamp(1.5rem, 5vw, 3.5rem);
+}
+
+.menu-btn {
+	display: none;
+}
+
+.navbar {
+	margin: 0;
+	padding: 0;
+	align-items: center;
+}
+
+.navbar a,
+.navbar p {
+	color: hsl(var(--clr-white));
+	font-size: var(--fs-16);
+}
+
+.header .navbar {
+	--gap: clamp(1.5rem, 5vw, 3.5rem);
+	--underline-gap: 2rem;
+	background-color: hsl(var(--clr-white) / 0.05);
+	backdrop-filter: blur(1.5rem);
+	padding-inline: clamp(3rem, 7vw, 7rem);
+}
+
+.header .navbar a > span {
+	margin-right: 0.5em;
+}
+
+.underline-indicators > * {
+	cursor: pointer;
+	padding: var(--underline-gap, 0.5rem) 0;
+	border: 0;
+	border-bottom: 0.2rem solid hsl(var(--clr-white) / 0);
+	background-color: transparent;
+}
+
+.underline-indicators > *:hover,
+.underline-indicators > *:focus {
+	border-color: hsl(var(--clr-white) / 0.5);
+}
+
+.underline-indicators > .active {
+	color: hsl(var(--clr-white) / 1);
+	border-color: hsl(var(--clr-white) / 1);
+}
+
+@media (max-width: 55em) {
+	body {
+		padding: 0;
+	}
+
+	/* Header */
+	.header::after,
+	.navbar a > span {
+		display: none;
+	}
+}
+
+@media (max-width: 35em) {
+	/* Borrow CSS from Kevin Powell */
+	/* https://github.com/kevin-powell/space-tourism/blob/main/lesson-files/65/index.css */
+	.menu-btn {
+		display: block;
+		position: absolute;
+		z-index: 2000;
+		right: 1rem;
+		top: 2rem;
+		background: transparent;
+		background-image: url(./assets/shared/icon-hamburger.svg);
+		background-repeat: no-repeat;
+		background-position: center;
+		width: 1.5rem;
+		aspect-ratio: 1;
+		border: 0;
+	}
+
+	.header .navbar {
+		--underline-gap: 0.5rem;
+		position: fixed;
+		z-index: 1000;
+		inset: 0 0 0 30%;
+		list-style: none;
+		padding: min(20rem, 15vh) 2rem;
+		margin: 0;
+		flex-direction: column;
+		transform: translateX(100%);
+		transition: transform 500ms ease-in-out;
+	}
+
+	.header .navbar[data-visible='true'] {
+		transform: translateX(0);
+	}
+
+	.header .navbar.underline-indicators > .active {
+		border: 0;
+	}
+
+	.menu-btn[aria-expanded='true'] {
+		background-image: url(./assets/shared/icon-close.svg);
+	}
+}
+
+/* ----------------------------- */
+/*        Home Page CSS          */
+/* ----------------------------- */
+main#home {
+	text-align: left;
+	color: hsl(var(--clr-secondary) / 0.75);
+	margin-top: 12rem;
+}
+
+.intro h1 {
+	font-size: var(--fs-20);
+}
+
+.intro span {
+	font-size: var(--fs-150);
+}
+
+.intro p {
+	max-width: 43ch;
+	font-size: var(--fs-18);
+}
+
+.btn-wrapper {
+	margin-inline: auto;
+	align-self: end;
+}
+
+@media (max-width: 55em) {
+	main#home {
+		text-align: center;
+		margin-top: 8rem;
+		gap: 10rem;
+	}
+
+	.intro span {
+		line-height: 1.2;
+	}
+
+	.intro p {
+		margin-inline: auto;
+		font-size: var(--fs-16);
+	}
+}
+
+@media (max-width: 35em) {
+	main#home {
+		place-items: center;
+		margin-top: 2.25rem;
+	}
+
+	.intro h1 {
+		font-size: var(--fs-16);
+		margin-bottom: 2rem;
+	}
+
+	.intro p {
+		font-size: var(--fs-15);
+	}
+
+	.intro span {
+		font-size: var(--fs-80);
+		line-height: 1.5;
+	}
+}
+
+/* Pages General CSS */
+main#destination,
+main#crew,
+main#technology {
+	margin-top: 3rem;
+}
+
+main#crew .main-heading,
+main#technology .main-heading {
+	margin-bottom: clamp(0rem, 3vh, 5rem);
+}
+
+.main-heading {
+	font-size: var(--fs-28);
+	margin-bottom: 3rem;
+}
+
+.main-heading span {
+	color: hsl(var(--clr-white) / 0.25);
+	margin-right: 1rem;
+}
+
+/* ----------------------------- */
+/*        Destination CSS        */
+/* ----------------------------- */
+main#destination .grid-container {
+	margin-left: clamp(2rem, 3vw, 5rem);
+	--gap: 2rem;
+}
+
+main#destination nav {
+	--gap: 2rem;
+	--underline-gap: 0.75rem;
+}
+
+.planet-pic {
+	display: flex;
+	align-items: center;
+}
+
+.planet-info {
+	display: flex;
+	flex-direction: column;
+}
+
+.planet-name {
+	font-size: var(--fs-100);
+}
+
+.planet-description {
+	max-width: 45ch;
+	font-size: var(--fs-18);
+	line-height: 1.8;
+}
+
+.planet-stats {
+	width: 70%;
+	--gap: 4rem;
+	margin-top: 2rem;
+	border-top: 1px solid hsl(var(--clr-white) / 0.5);
+}
+
+.planet-stats > * {
+	margin-top: 1.5rem;
+}
+
+.planet-stats p:first-of-type {
+	font-size: var(--fs-14);
+}
+
+.planet-stats p:last-of-type {
+	font-size: var(--fs-28);
+}
+
+@media (max-width: 55em) {
+	main#destination .grid-container {
+		place-items: center;
+		text-align: center;
+		margin-left: 0;
+	}
+
+	.planet-description {
+		max-width: none;
+	}
+
+	.planet-pic {
+		justify-content: center;
+	}
+
+	.planet-pic > img {
+		width: 70%;
+	}
+
+	.planet-info {
+		align-items: center;
+		padding-inline: 3rem;
+	}
+
+	.planet-stats {
+		justify-content: center;
+	}
+}
+
+@media (max-width: 35em) {
+	body {
+		padding-bottom: 3rem;
+	}
+
+	.main-heading {
+		font-size: var(--fs-16);
+		text-align: center;
+	}
+
+	.planet-pic > img {
+		width: 40%;
+	}
+
+	.planet-info {
+		padding: 0;
+	}
+
+	.planet-name {
+		font-size: var(--fs-56);
+	}
+
+	.planet-description {
+		font-size: var(--fs-15);
+		line-height: 1.7;
+	}
+
+	.planet-stats {
+		width: 100%;
+		flex-direction: column;
+		--gap: 0.5rem;
+	}
+}
+
+/* ----------------------------- */
+/*           Crew CSS            */
+/* ----------------------------- */
+.crew-info {
+	flex-direction: column;
+	justify-content: center;
+	--gap: 2rem;
+}
+
+.crew-info > h1 {
+	font-size: clamp(1rem, 3vw, 2rem);
+}
+
+.name {
+	font-size: clamp(var(--fs-24), 5vw, var(--fs-56));
+}
+
+.description {
+	font-size: clamp(var(--fs-15), 2vw, var(--fs-18));
+	line-height: 1.8;
+}
+
+.slide-controller {
+	--gap: 1rem;
+	margin-top: 6rem;
+}
+
+.dot {
+	cursor: pointer;
+	width: 15px;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background-color: hsl(var(--clr-white) / 0.17);
+}
+
+.dot:hover,
+.dot:focus {
+	background-color: hsl(var(--clr-white) / 0.5);
+}
+
+.dot--active {
+	background-color: hsl(var(--clr-white));
+}
+
+.crew-pic {
+	display: flex;
+}
+
+@media (max-width: 55em) {
+	main#crew .grid-container {
+		place-items: center;
+		place-content: center;
+		text-align: center;
+		margin-top: 3rem;
+	}
+
+	.slide-controller {
+		--gap: 1rem;
+		margin-block: 3rem;
+		justify-content: center;
+	}
+
+	.dot {
+		width: 10px;
+	}
+
+	.crew-pic {
+		justify-content: center;
+	}
+
+	.crew-pic img {
+		width: 80%;
+	}
+}
+
+@media (max-width: 35em) {
+	main#crew .grid-container {
+		grid-template-areas:
+			'pic'
+			'info';
+
+		--gap: 0;
+	}
+
+	.crew-info {
+		grid-area: info;
+		border-top: 1px solid hsl(var(--clr-white) / 0.5);
+		--gap: 0.5rem;
+	}
+
+	.crew-pic {
+		grid-area: pic;
+	}
+
+	.crew-info > h1 {
+		order: 2;
+	}
+
+	.description {
+		order: 3;
+	}
+
+	.slider-controller {
+		margin-block: 2rem;
+		order: 1;
+	}
+}
+
+/* ----------------------------- */
+/*           Tech CSS            */
+/* ----------------------------- */
+.controller-group {
+	flex-direction: column;
+	--gap: 1.5rem;
+	margin-right: clamp(1rem, 2vw, 7rem);
+}
+
+main#technology .dot {
+	width: clamp(2.5rem, 8vw, 5rem);
+	color: hsl(var(--clr-white));
+	display: grid;
+	place-items: center;
+	font-size: clamp(1rem, 3vw, 2rem);
+	background-color: transparent;
+	border: 1px solid hsl(var(--clr-white) / 0.5);
+}
+
+main#technology .dot--active {
+	color: #000;
+	background-color: hsl(var(--clr-white));
+}
+
+.tech-info {
+	align-items: center;
+}
+
+.tech-pic {
+	display: flex;
+	justify-content: flex-end;
+}
+
+@media (max-width: 55em) {
+	main#technology.container-md {
+		width: 100%;
+	}
+
+	main#technology .grid-container {
+		margin-top: 3rem;
+		grid-template-areas:
+			'pic'
+			'info';
+	}
+
+	main#technology .main-heading {
+		margin-left: 3.5rem;
+	}
+
+	.tech-pic {
+		grid-area: pic;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	.tech-pic > img {
+		flex-shrink: 0;
+		min-width: 100%;
+		min-height: 100%;
+	}
+
+	.tech-info {
+		grid-area: info;
+		flex-direction: column;
+		text-align: center;
+		padding-inline: 1.5rem;
+	}
+
+	.controller-group {
+		flex-direction: row;
+		margin-block: 3rem;
+	}
+}
+
+@media (max-width: 35em) {
+	main#technology .main-heading {
+		margin-left: 0;
+	}
+
+	.tech-info h2 {
+		font-size: var(--fs-14);
+	}
 }
