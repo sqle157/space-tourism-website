@@ -118,6 +118,7 @@ body {
 	background-size: cover;
 	background-position: center;
 	padding-top: 2.5rem;
+	transition: background-image 500ms ease;
 }
 
 /* Utility classes */
@@ -658,6 +659,7 @@ main#destination nav {
 
 .crew-pic {
 	display: flex;
+	transition: all 500ms ease-in;
 }
 
 @media (max-width: 55em) {
